@@ -5,7 +5,7 @@ TARGET := main
 SOURCES := $(wildcard *.cpp)
 OBJECTS := $(SOURCES:.cpp=.o)
 HEADERS := $(wildcard *.h)
-
+LOGFILE := run_log.txt
 
 \
 #build target
@@ -22,4 +22,4 @@ run: $(TARGET)
 
 #clean target
 clean:
-	rm -f *.o $(TARGET)
+	rm -f *.o $(TARGET) $(LOGFILE)

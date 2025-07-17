@@ -6,6 +6,7 @@
 #include<iomanip>
 #include<sstream>
 #include<mutex>
+#include<exception>
 
 
 //logging levels
@@ -18,7 +19,8 @@ enum loglevel {
 class logger
 {
     public:
-        logger(const std::string&filename) : log_file(filename ,std::ios::app){}
+        logger(const std::string&filename) : log_file(filename ,std::ios::out | std::ios::trunc){}
+        ~logger();
         std::string level_to_string(loglevel level);
         void log(loglevel level,std::string log_message);
         std::string current_timestamp();
@@ -27,6 +29,13 @@ class logger
     std::ofstream log_file;
     std::mutex mtx;
 };
+logger::~logger()
+{
+    if(log_file.is_open())
+    {
+        log_file.close();
+    }
+}
 std::string logger:: current_timestamp()
 {   using namespace std::chrono;
     auto now=system_clock::now();
@@ -49,14 +58,11 @@ std::string logger:: level_to_string(loglevel level)
 void logger::log(loglevel level, std::string log_message)
 {       
     std::lock_guard<std::mutex> lock(mtx);
-    //  if(log_file.is_open())
-    //  {
-        log_file <<"["<<current_timestamp()<<"]" 
-        <<"["<< level_to_string(level)<<"]"<<log_message;
-        log_file.close();
-    //  }
-    //  else{
-    //     std::cout<< "Error while opening file"<<std::endl;
-    //  }
-
+    try {
+        log_file << "[" << current_timestamp() << "]"
+                 << "[" << level_to_string(level) << "] " << log_message << std::endl;
+    } catch (const std::exception& e) {
+        std::cout << "Error while writing to file: " << e.what() << std::endl;
+    }
 }
+
