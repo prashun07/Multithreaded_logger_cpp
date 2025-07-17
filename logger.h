@@ -57,7 +57,7 @@ std::string logger:: level_to_string(loglevel level)
 }
 void logger::log(loglevel level, std::string log_message)
 {       
-    std::lock_guard<std::mutex> lock(mtx);
+    std::lock_guard<std::mutex> lock(mtx); //automatically handles locking and unlocking
     try {
         log_file << "[" << current_timestamp() << "]"
                  << "[" << level_to_string(level) << "] " << log_message << std::endl;

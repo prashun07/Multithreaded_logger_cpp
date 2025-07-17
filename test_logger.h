@@ -6,6 +6,7 @@ class test_logger{
 
     private:
     std::string message;
+    std::mutex test_mtx;
     public:
     std::string get_message();
     void set_message(std::string log_message);
@@ -32,12 +33,15 @@ void test_logger:: take_user_input()
 void test_logger::read_logger_message()
 {
     std::ifstream file("run_log.txt"); //open to read;
+    std::lock_guard<std::mutex>lock(test_mtx);
 
     std::string line;
+
     if(file.is_open())
     {
         while(getline(file,line))
         {
+            std::cout<<"Reading file\n";
             std::cout<<line<<std::endl;
         }
         file.close();
