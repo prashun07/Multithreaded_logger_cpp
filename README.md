@@ -7,7 +7,7 @@
 - **Parallelism** is about executing multiple tasks simultaneously, typically on multiple CPU cores.    
 - Concurrency can be achieved on a single-core processor by interleaving the execution of tasks, while parallelism requires multiple cores to run tasks simultaneously.
 
-![More](https://www.geeksforgeeks.org/operating-systems/difference-between-concurrency-and-parallelism/)
+[Difference between Concurrency and Parallelism – GeeksforGeeks](https://www.geeksforgeeks.org/operating-systems/difference-between-concurrency-and-parallelism/)
 
 ## Processes
 - A process (also called task) is an instance of a running program. Each process has its own memory space and resources.
